@@ -1,3 +1,4 @@
+import PropertiesLoadingSkleton from "@/components/PropertiesLoadingSkleton";
 import PropertyCard from "@/components/PropertyCard";
 import PropertySearchForm from "@/components/PropertySearchForm";
 import { fetchProperties } from "@/utils/requests";
@@ -7,7 +8,6 @@ const PropertiesPage = async () => {
   const sortedProperties = [...properties].sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
   );
-
   return (
     <>
       <section className=" bg-blue-700 ">
