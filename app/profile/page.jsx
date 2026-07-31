@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import defaultProfile from "@/assets/images/profile.png";
 import { useState, useEffect } from "react";
-import Spinner from "@/components/Spinner";
 import { toast } from "react-toastify";
 import ProfileSkeleton from "@/components/profileLoadingPage";
 

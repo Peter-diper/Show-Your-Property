@@ -1,19 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { fetchProperty } from "@/utils/requests";
-import PropertyHeaderImage from "@/components/PropertyHeaderImage";
-import Link from "next/link";
-import PropertyDetails from "@/components/PropertyDetails";
-import { FaArrowLeft } from "react-icons/fa";
-import Spinner from "@/components/Spinner";
-import ErrorBlock from "@/components/ErrorBlock";
-import PropertyImage from "@/components/PropertyImage";
 import BookmarkButton from "@/components/BookmarkButton";
-import ShareButton from "@/components/ShareButton";
-import PropertyCantectForm from "@/components/PropertyCantectForm";
+import ErrorBlock from "@/components/ErrorBlock";
 import PageDetailLoading from "@/components/PageDetailLoading";
+import PropertyCantectForm from "@/components/PropertyCantectForm";
+import PropertyDetails from "@/components/PropertyDetails";
+import PropertyHeaderImage from "@/components/PropertyHeaderImage";
+import PropertyImage from "@/components/PropertyImage";
+import ShareButton from "@/components/ShareButton";
+import { fetchProperty } from "@/utils/requests";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FaArrowLeft } from "react-icons/fa";
 
 const PropertyPage = () => {
   const { id } = useParams();

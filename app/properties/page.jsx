@@ -1,4 +1,3 @@
-import PropertiesLoadingSkleton from "@/components/PropertiesLoadingSkleton";
 import PropertyCard from "@/components/PropertyCard";
 import PropertySearchForm from "@/components/PropertySearchForm";
 import { fetchProperties } from "@/utils/requests";
