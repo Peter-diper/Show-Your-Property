@@ -13,6 +13,7 @@ import PropertyImage from "@/components/PropertyImage";
 import BookmarkButton from "@/components/BookmarkButton";
 import ShareButton from "@/components/ShareButton";
 import PropertyCantectForm from "@/components/PropertyCantectForm";
+import PageDetailLoading from "@/components/PageDetailLoading";
 
 const PropertyPage = () => {
   const { id } = useParams();
@@ -58,7 +59,7 @@ const PropertyPage = () => {
 
   return (
     <>
-      {loading && <Spinner />}
+      {loading && <PageDetailLoading />}
 
       {!loading && property && (
         <>
