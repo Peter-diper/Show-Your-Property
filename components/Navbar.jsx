@@ -99,7 +99,7 @@ const Navbar = () => {
           </div>
 
           {/* <!-- Right Side Menu (Logged Out) --> */}
-          {status !== "authenticated" && (
+          {status !== "loading" && status !== "authenticated" && (
             <div className="hidden md:block md:ml-6">
               <div className="flex items-center space-x-1">
                 {providers &&
@@ -121,8 +121,8 @@ const Navbar = () => {
               </div>
             </div>
           )}
-
           {/* <!-- Right Side Menu (Logged In) --> */}
+
           {status === "authenticated" && (
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
               <Link href="/messages" className="relative group">
