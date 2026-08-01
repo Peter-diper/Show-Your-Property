@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FaCheck, FaPaperPlane } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
@@ -15,12 +15,19 @@ const PropertyCantectForm = ({ property }) => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [wasSibmited, setWasSibmited] = useState(false);
+  const submitBtn = useRef();
+  const timer = useRef();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // is authinticated or not
     if (!isAthenticated) {
       toast.info("Please Login First ");
+      submitBtn.current.disabled = true;
+
+      timer.current = setTimeout(() => {
+        submitBtn.current.disabled = false;
+      }, 1000);
+
       return;
     }
 
@@ -120,6 +127,7 @@ const PropertyCantectForm = ({ property }) => {
             <button
               className={`${!loading ? "bg-blue-500 hover:bg-blue-600 " : "bg-gray-500 hover:bg-gray-600 animate-pulse "} duration-200 transition-all text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline flex items-center justify-center`}
               type="submit"
+              ref={submitBtn}
             >
               {loading ? (
                 <>Loading...</>
