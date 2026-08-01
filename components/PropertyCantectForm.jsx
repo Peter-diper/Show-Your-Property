@@ -30,6 +30,7 @@ const PropertyCantectForm = ({ property }) => {
 
       return;
     }
+    setLoading(true);
 
     const data = {
       name,
@@ -40,14 +41,29 @@ const PropertyCantectForm = ({ property }) => {
       property: property._id,
     };
 
-    console.log(data);
+    try {
+      const res = await fetch("/api/messages", {
+        method: "POST",
+        headers: { ContentType: "aplication/json" },
+        body: JSON.stringify(data),
+      });
 
-    setLoading(true);
-    setTimeout(() => {
-      setWasSibmited(true);
+      if (res.status === 200) {
+        const data = await res.json();
+        toast.success(data.message);
+        setWasSibmited(true);
+      } else if (res.status === 400) {
+        const data = await res.json();
+        toast.warn(data.message);
+      } else {
+        console.log("something went wrong");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Error: sent faild");
+    } finally {
       setLoading(false);
-      toast.success("your message has been sent");
-    }, 2000);
+    }
   };
 
   return (
@@ -84,6 +100,7 @@ const PropertyCantectForm = ({ property }) => {
               Email:
             </label>
             <input
+              required
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="email"
               type="email"

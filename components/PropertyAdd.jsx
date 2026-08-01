@@ -1,74 +1,41 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const PropertyAdd = () => {
-  const [fields, setFields] = useState({
-    type: "Apartment",
-    name: "Test Property",
-    description: "",
-    location: {
-      street: "",
-      city: "test city",
-      state: "test state",
-      zipcode: "",
-    },
-    beds: "3",
-    baths: "2",
-    square_feet: "1800",
-    amenities: [],
-    rates: {
-      weekly: "",
-      monthly: "2000",
-      nightly: "720",
-    },
-    seller_info: {
-      name: "",
-      email: "test@test.com",
-      phone: "",
-    },
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-    images: [],
-  });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-  function handleChange(e) {
-    const { name, value } = e.target;
+    try {
+      const data = new FormData(e.target);
 
-    if (name.includes(".")) {
-      const [outerValue, innerValue] = name.split(".");
-      console.log(outerValue);
+      const res = await fetch("/api/properties", {
+        method: "POST",
+        body: data,
+      });
 
-      setFields((prev) => ({
-        ...prev,
-        [outerValue]: { ...prev[outerValue], [innerValue]: value },
-      }));
-      return;
+      if (res.status === 200) {
+        const { propertyId: id } = await res.json();
+        toast.success("Property Added ");
+        router.push(`/properties/${id}`);
+      } else {
+        toast.error("something went wrong");
+      }
+    } catch (error) {
+      toast.error("something went wrong");
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
-
-    setFields((prevField) => ({ ...prevField, [name]: value }));
-  }
-  function handleAmenitiesChange(e) {
-    const { value, checked } = e.target;
-    const updatedAmenities = [...fields.amenities];
-
-    if (checked) {
-      updatedAmenities.push(value);
-    } else {
-      const index = fields.amenities.indexOf(value);
-      updatedAmenities.splice(index, 1);
-    }
-    setFields((prev) => ({ ...prev, amenities: updatedAmenities }));
-  }
-  function handleImageChange(e) {
-    const { files } = e.target;
-    const updatedImages = [...fields.images];
-
-    for (const file of files) updatedImages.push(file);
-
-    setFields((prevField) => ({ ...prevField, images: updatedImages }));
-  }
+  };
 
   return (
-    <form action="/api/properties" method="post" encType="multipart/form-data">
+    <form onSubmit={handleSubmit}>
       <h2 className="text-3xl text-center font-semibold mb-6">Add Property</h2>
 
       <div className="mb-4">
@@ -80,8 +47,6 @@ const PropertyAdd = () => {
           name="type"
           className="border rounded w-full py-2 px-3"
           required
-          value={fields.type}
-          onChange={handleChange}
         >
           <option value="Apartment">Apartment</option>
           <option value="Condo">Condo</option>
@@ -92,6 +57,7 @@ const PropertyAdd = () => {
           <option value="Other">Other</option>
         </select>
       </div>
+
       <div className="mb-4">
         <label className="block text-gray-700 font-bold mb-2">
           Listing Name
@@ -103,10 +69,9 @@ const PropertyAdd = () => {
           className="border rounded w-full py-2 px-3 mb-2"
           placeholder="eg. Beautiful Apartment In Miami"
           required
-          value={fields.name}
-          onChange={handleChange}
         />
       </div>
+
       <div className="mb-4">
         <label
           htmlFor="description"
@@ -120,8 +85,6 @@ const PropertyAdd = () => {
           className="border rounded w-full py-2 px-3"
           rows="4"
           placeholder="Add an optional description of your property"
-          value={fields.description}
-          onChange={handleChange}
         ></textarea>
       </div>
 
@@ -133,8 +96,6 @@ const PropertyAdd = () => {
           name="location.street"
           className="border rounded w-full py-2 px-3 mb-2"
           placeholder="Street"
-          value={fields.location.street}
-          onChange={handleChange}
         />
         <input
           type="text"
@@ -143,8 +104,6 @@ const PropertyAdd = () => {
           className="border rounded w-full py-2 px-3 mb-2"
           placeholder="City"
           required
-          value={fields.location.city}
-          onChange={handleChange}
         />
         <input
           type="text"
@@ -153,8 +112,6 @@ const PropertyAdd = () => {
           className="border rounded w-full py-2 px-3 mb-2"
           placeholder="State"
           required
-          value={fields.location.state}
-          onChange={handleChange}
         />
         <input
           type="text"
@@ -162,8 +119,6 @@ const PropertyAdd = () => {
           name="location.zipcode"
           className="border rounded w-full py-2 px-3 mb-2"
           placeholder="Zipcode"
-          value={fields.location.zipcode}
-          onChange={handleChange}
         />
       </div>
 
@@ -178,8 +133,6 @@ const PropertyAdd = () => {
             name="beds"
             className="border rounded w-full py-2 px-3"
             required
-            value={fields.beds}
-            onChange={handleChange}
           />
         </div>
         <div className="w-full sm:w-1/3 px-2">
@@ -192,8 +145,6 @@ const PropertyAdd = () => {
             name="baths"
             className="border rounded w-full py-2 px-3"
             required
-            value={fields.baths}
-            onChange={handleChange}
           />
         </div>
         <div className="w-full sm:w-1/3 pl-2">
@@ -209,8 +160,6 @@ const PropertyAdd = () => {
             name="square_feet"
             className="border rounded w-full py-2 px-3"
             required
-            value={fields.square_feet}
-            onChange={handleChange}
           />
         </div>
       </div>
@@ -218,190 +167,46 @@ const PropertyAdd = () => {
       <div className="mb-4 select-none">
         <label className="block text-gray-700 font-bold mb-2">Amenities</label>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-          <div>
-            <input
-              type="checkbox"
-              id="amenity_wifi"
-              name="amenities"
-              value="Wifi"
-              className="mr-2"
-              checked={fields.amenities.includes("Wifi")}
-              onChange={handleAmenitiesChange}
-            />
-            <label htmlFor="amenity_wifi">Wifi</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id="amenity_kitchen"
-              name="amenities"
-              value="Full Kitchen"
-              className="mr-2"
-              checked={fields.amenities.includes("Full Kitchen")}
-              onChange={handleAmenitiesChange}
-            />
-            <label htmlFor="amenity_kitchen">Full kitchen</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id="amenity_washer_dryer"
-              name="amenities"
-              value="Washer & Dryer"
-              className="mr-2"
-              checked={fields.amenities.includes("Washer & Dryer")}
-              onChange={handleAmenitiesChange}
-            />
-            <label htmlFor="amenity_washer_dryer">Washer & Dryer</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id="amenity_free_parking"
-              name="amenities"
-              value="Free Parking"
-              className="mr-2"
-              checked={fields.amenities.includes("Free Parking")}
-              onChange={handleAmenitiesChange}
-            />
-            <label htmlFor="amenity_free_parking">Free Parking</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id="amenity_pool"
-              name="amenities"
-              value="Swimming Pool"
-              className="mr-2"
-              checked={fields.amenities.includes("Swimming Pool")}
-              onChange={handleAmenitiesChange}
-            />
-            <label htmlFor="amenity_pool">Swimming Pool</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id="amenity_hot_tub"
-              name="amenities"
-              value="Hot Tub"
-              className="mr-2"
-              checked={fields.amenities.includes("Hot Tub")}
-              onChange={handleAmenitiesChange}
-            />
-            <label htmlFor="amenity_hot_tub">Hot Tub</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id="amenity_24_7_security"
-              name="amenities"
-              value="24/7 Security"
-              className="mr-2"
-              checked={fields.amenities.includes("24/7 Security")}
-              onChange={handleAmenitiesChange}
-            />
-            <label htmlFor="amenity_24_7_security">24/7 Security</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id="amenity_wheelchair_accessible"
-              name="amenities"
-              value="Wheelchair Accessible"
-              className="mr-2"
-              checked={fields.amenities.includes("Wheelchair Accessible")}
-              onChange={handleAmenitiesChange}
-            />
-            <label htmlFor="amenity_wheelchair_accessible">
-              Wheelchair Accessible
-            </label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id="amenity_elevator_access"
-              name="amenities"
-              value="Elevator Access"
-              className="mr-2"
-              checked={fields.amenities.includes("Elevator Access")}
-              onChange={handleAmenitiesChange}
-            />
-            <label htmlFor="amenity_elevator_access">Elevator Access</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id="amenity_dishwasher"
-              name="amenities"
-              value="Dishwasher"
-              className="mr-2"
-              checked={fields.amenities.includes("Dishwasher")}
-              onChange={handleAmenitiesChange}
-            />
-            <label htmlFor="amenity_dishwasher">Dishwasher</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id="amenity_gym_fitness_center"
-              name="amenities"
-              value="Gym/Fitness Center"
-              className="mr-2"
-              checked={fields.amenities.includes("Gym/Fitness Center")}
-              onChange={handleAmenitiesChange}
-            />
-            <label htmlFor="amenity_gym_fitness_center">
-              Gym/Fitness Center
-            </label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id="amenity_air_conditioning"
-              name="amenities"
-              value="Air Conditioning"
-              className="mr-2"
-              checked={fields.amenities.includes("Air Conditioning")}
-              onChange={handleAmenitiesChange}
-            />
-            <label htmlFor="amenity_air_conditioning">Air Conditioning</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id="amenity_balcony_patio"
-              name="amenities"
-              value="Balcony/Patio"
-              className="mr-2"
-              checked={fields.amenities.includes("Balcony/Patio")}
-              onChange={handleAmenitiesChange}
-            />
-            <label htmlFor="amenity_balcony_patio">Balcony/Patio</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id="amenity_smart_tv"
-              name="amenities"
-              value="Smart TV"
-              className="mr-2"
-              checked={fields.amenities.includes("Smart TV")}
-              onChange={handleAmenitiesChange}
-            />
-            <label htmlFor="amenity_smart_tv">Smart TV</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id="amenity_coffee_maker"
-              name="amenities"
-              value="Coffee Maker"
-              className="mr-2"
-              checked={fields.amenities.includes("Coffee Maker")}
-              onChange={handleAmenitiesChange}
-            />
-            <label htmlFor="amenity_coffee_maker">Coffee Maker</label>
-          </div>
+          {[
+            ["amenity_wifi", "Wifi", "Wifi"],
+            ["amenity_kitchen", "Full Kitchen", "Full kitchen"],
+            ["amenity_washer_dryer", "Washer & Dryer", "Washer & Dryer"],
+            ["amenity_free_parking", "Free Parking", "Free Parking"],
+            ["amenity_pool", "Swimming Pool", "Swimming Pool"],
+            ["amenity_hot_tub", "Hot Tub", "Hot Tub"],
+            ["amenity_24_7_security", "24/7 Security", "24/7 Security"],
+            [
+              "amenity_wheelchair_accessible",
+              "Wheelchair Accessible",
+              "Wheelchair Accessible",
+            ],
+            ["amenity_elevator_access", "Elevator Access", "Elevator Access"],
+            ["amenity_dishwasher", "Dishwasher", "Dishwasher"],
+            [
+              "amenity_gym_fitness_center",
+              "Gym/Fitness Center",
+              "Gym/Fitness Center",
+            ],
+            [
+              "amenity_air_conditioning",
+              "Air Conditioning",
+              "Air Conditioning",
+            ],
+            ["amenity_balcony_patio", "Balcony/Patio", "Balcony/Patio"],
+            ["amenity_smart_tv", "Smart TV", "Smart TV"],
+            ["amenity_coffee_maker", "Coffee Maker", "Coffee Maker"],
+          ].map(([id, value, label]) => (
+            <div key={id}>
+              <input
+                type="checkbox"
+                id={id}
+                name="amenities"
+                value={value}
+                className="mr-2"
+              />
+              <label htmlFor={id}>{label}</label>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -419,8 +224,6 @@ const PropertyAdd = () => {
               id="weekly_rate"
               name="rates.weekly"
               className="border rounded w-full py-2 px-3"
-              value={fields.rates.weekly}
-              onChange={handleChange}
             />
           </div>
           <div className="flex items-center">
@@ -432,8 +235,6 @@ const PropertyAdd = () => {
               id="monthly_rate"
               name="rates.monthly"
               className="border rounded w-full py-2 px-3"
-              onChange={handleChange}
-              value={fields.rates.monthly}
             />
           </div>
           <div className="flex items-center">
@@ -445,8 +246,6 @@ const PropertyAdd = () => {
               id="nightly_rate"
               name="rates.nightly"
               className="border rounded w-full py-2 px-3"
-              onChange={handleChange}
-              value={fields.rates.nightly}
             />
           </div>
         </div>
@@ -465,9 +264,6 @@ const PropertyAdd = () => {
           name="seller_info.name"
           className="border rounded w-full py-2 px-3"
           placeholder="Name"
-          onChange={handleChange}
-          value={fields.seller_info.name}
-          
         />
       </div>
       <div className="mb-4">
@@ -484,8 +280,6 @@ const PropertyAdd = () => {
           className="border rounded w-full py-2 px-3"
           placeholder="Email address"
           required
-          onChange={handleChange}
-          value={fields.seller_info.email}
         />
       </div>
       <div className="mb-4">
@@ -501,8 +295,6 @@ const PropertyAdd = () => {
           name="seller_info.phone"
           className="border rounded w-full py-2 px-3"
           placeholder="Phone"
-          onChange={handleChange}
-          value={fields.seller_info.phone}
         />
       </div>
 
@@ -517,17 +309,17 @@ const PropertyAdd = () => {
           className="border rounded w-full py-2 px-3"
           accept="image/*"
           multiple
-          onChange={handleImageChange}
           required
         />
       </div>
 
       <div>
         <button
-          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
+          className={`${loading ? "bg-gray-500 hover:bg-gray-600 animate-pulse" : "bg-blue-500 hover:bg-blue-600"} transition-all duration-200 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline`}
           type="submit"
+          disabled={loading}
         >
-          Add Property
+          {loading ? "Adding Property ..." : "Add Property"}
         </button>
       </div>
     </form>

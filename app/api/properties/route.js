@@ -23,11 +23,7 @@ export const POST = async (request) => {
   try {
     await connectDB();
     const userSession = await getUserSession();
-    const { userId, getUser } = userSession;
-
-    if (!getUser) {
-      return NextResponse.redirect("/");
-    }
+    const { userId } = userSession;
 
     const formData = await request.formData();
 
@@ -93,12 +89,9 @@ export const POST = async (request) => {
     propertyData.images = uploadedImages;
 
     const newProperty = new Property(propertyData);
-    newProperty.save();
-    return Response.redirect(
-      `${process.env.NEXT_PUBLIC_DOMAIN}/properties/${newProperty._id}`,
-    );
-
-    // return NextResponse.json({ message: "Seccuss full" }, { status: 200 });
+    await newProperty.save();
+    console.log(newProperty._id);
+    return NextResponse.json({ propertyId: newProperty._id }, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json(error);
