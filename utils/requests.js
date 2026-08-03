@@ -6,7 +6,9 @@ async function fetchProperties() {
     // if we did not have currect apiDomain dont crash the project!
     if (!apiDomain) return [];
 
-    const res = await fetch(`${apiDomain}/properties`, { cache: "no-store" });
+    const res = await fetch(`${apiDomain}/properties`, {
+      cache: "force-cache",
+    });
     if (!res.ok) {
       throw new Error("could not fetch propeties!");
     }
@@ -23,7 +25,9 @@ async function fetchProperty(id) {
     // if we did not have currect apiDomain dont crash the project!
     if (!apiDomain) return null;
 
-    const res = await fetch(`${apiDomain}/properties/${id}`);
+    const res = await fetch(`${apiDomain}/properties/${id}`, {
+      cache: "default",
+    });
     if (!res.ok) {
       throw new Error("could not fetch propeties!");
     }
