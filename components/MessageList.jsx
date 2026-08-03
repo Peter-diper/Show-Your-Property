@@ -1,6 +1,8 @@
+"use client";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-const MessagesProperty = () => {
+const MessageList = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -13,7 +15,12 @@ const MessagesProperty = () => {
           const messageData = await res.json();
           setMessages(messageData);
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+        toast.error("Error faild to load messages!");
+      } finally {
+        setLoading(false);
+      }
     };
     fetchMessage();
   }, []);
@@ -21,4 +28,4 @@ const MessagesProperty = () => {
   return <div>MessagesProperty</div>;
 };
 
-export default MessagesProperty;
+export default MessageList;

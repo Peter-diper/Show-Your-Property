@@ -3,6 +3,7 @@ import connectDB from "@/config/db";
 import { getUserSession } from "@/utils/getUserSession";
 import { NextResponse } from "next/server";
 import Property from "@/models/Property";
+export const dynamic = "force-dynamic";
 
 export const POST = async (request) => {
   try {
