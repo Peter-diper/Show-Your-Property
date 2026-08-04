@@ -15,6 +15,8 @@ const ProfilePage = () => {
 
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deletionLoading, setDeletionLoading] = useState(false);
+  const [deletedProperty, setDeletedProperty] = useState(null);
 
   useEffect(() => {
     const retrieveUserProperties = async (userId) => {
@@ -41,9 +43,10 @@ const ProfilePage = () => {
 
   const handleDeleteProperty = async (propertyId) => {
     const confirm = window.confirm("Are You sure about deleting this property");
-
+    setDeletedProperty(propertyId);
     if (!propertyId || !confirm) return;
 
+    setDeletionLoading(true);
     const res = await fetch(`/api/properties/${propertyId}`, {
       method: "DELETE",
     });
@@ -59,7 +62,10 @@ const ProfilePage = () => {
       } else {
         toast.error("property has not bein deleted!");
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setDeletionLoading(false);
+    }
   };
 
   if (loading) return <ProfileSkeleton />;
@@ -125,10 +131,12 @@ const ProfilePage = () => {
                     </Link>
                     <button
                       onClick={() => handleDeleteProperty(property._id)}
-                      className="bg-red-500 text-white px-3 py-2 rounded-md hover:bg-red-600"
+                      className={`${deletionLoading && deletedProperty === property._id ? "bg-gray-500  hover:bg-gray-600 animate-pulse " : "bg-red-500  hover:bg-red-600"} transition-all duration-75 text-white px-3 py-2 rounded-md`}
                       type="button"
                     >
-                      Delete
+                      {deletionLoading && deletedProperty === property._id
+                        ? "Deleting..."
+                        : "Delete"}
                     </button>
                   </div>
                 </div>
