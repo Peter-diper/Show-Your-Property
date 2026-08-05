@@ -32,7 +32,7 @@ const Message = ({ message }) => {
     <div className="group relative border select-none border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-blue-200 transition-all duration-200">
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h2 className="text-xl font-semibold text-slate-800">
+          <h2 className="text-xl font-semibold  text-slate-800">
             {message?.property.name}
           </h2>
 
@@ -43,7 +43,7 @@ const Message = ({ message }) => {
 
         {!isRead && (
           <>
-            <span className="bg-green-200 animate-pulse text-green-900 text-xs font-semibold px-6 py-2 rounded-full">
+            <span className="bg-green-200 animate-soft-intro animate-pulse text-green-900 text-xs  font-semibold px-6 py-2 rounded-full">
               New
             </span>
             <div className="absolute top-5.5 right-5.5 border-2 border-green-700/20  animate-ping  px-9 py-4 rounded-full"></div>

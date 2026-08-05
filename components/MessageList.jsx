@@ -31,7 +31,7 @@ const MessageList = () => {
     <section className="bg-slate-100 min-h-screen py-12">
       <div className="max-w-5xl mx-auto px-4">
         <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
-          <div className="border-b border-slate-200 px-8 py-6 flex items-center justify-between">
+          <div className="border-b border-slate-200 px-8 py-6 flex md:items-center md:justify-between md:flex-row items-start gap-3 flex-col">
             <div>
               <h1 className="text-3xl font-bold text-slate-800">
                 Property Messages
