@@ -45,7 +45,7 @@ const SearchResultPage = () => {
   if (loading) {
     return (
       <>
-        <section className=" bg-blue-700 ">
+        <section className=" bg-gray-700 ">
           <div className="container-xl lg:container m-auto px-4 py-6">
             <PropertySearchForm />
           </div>
@@ -71,7 +71,7 @@ const SearchResultPage = () => {
 
   return (
     <>
-      <section className=" bg-blue-700 ">
+      <section className=" bg-gray-700 ">
         <div className="container-xl lg:container m-auto px-4 py-6">
           <PropertySearchForm />
         </div>
@@ -85,7 +85,7 @@ const SearchResultPage = () => {
         </h1>
         <div className="container-xl lg:container m-auto px-4 py-6">
           {properties.length === 0 ? (
-            <p>no saved bookmarks</p>
+            <p className="bg-gray-200 rounded-full p-4">no property found !</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {properties.map((property) => (

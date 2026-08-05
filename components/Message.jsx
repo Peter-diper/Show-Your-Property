@@ -1,9 +1,35 @@
+"use client";
+import { useState } from "react";
 import { FaEnvelope, FaPhone, FaCalendarAlt, FaUser } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const Message = ({ message }) => {
-  console.log(message);
+  const [isRead, setIsRead] = useState(message.read);
+  const [loading, setLoading] = useState(false);
+
+  const handleReadClick = async (request) => {
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/messages/${message._id}`, {
+        method: "PUT",
+      });
+
+      if (res.status === 200) {
+        const { read } = await res.json();
+        setIsRead(read);
+        console.log(read);
+        toast.success(read ? "Marcked as read" : "Marked as New");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="group border border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-blue-200 transition-all duration-200">
+    <div className="group border select-none border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-blue-200 transition-all duration-200">
       <div className="flex justify-between items-start mb-4">
         <div>
           <h2 className="text-xl font-semibold text-slate-800">
@@ -15,9 +41,11 @@ const Message = ({ message }) => {
           </p>
         </div>
 
-        <span className="bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full">
-          New
-        </span>
+        {!isRead && (
+          <span className="bg-green-200 animate-pulse text-green-900 text-xs font-semibold px-6 py-2 rounded-full">
+            New
+          </span>
+        )}
       </div>
 
       <p className="text-slate-600 leading-relaxed">{message?.body}</p>
@@ -58,10 +86,12 @@ const Message = ({ message }) => {
         </div>
       </div>
 
-      {/* Footer */}
       <div className="flex justify-end gap-3 mt-8">
-        <button className="px-5 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
-          Mark as Read
+        <button
+          onClick={handleReadClick}
+          className={`px-5 py-2 rounded-lg ${loading ? "bg-slate-100 text-slate-700 hover:bg-slate-200 animate-pulse" : isRead ? "bg-green-100 text-green-700 hover:bg-green-200" : "bg-blue-100 text-blue-700 hover:bg-blue-200"} transition`}
+        >
+          {loading ? "loading ... " : isRead ? "Mark as new" : "Mark as read"}
         </button>
 
         <button className="px-5 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition">

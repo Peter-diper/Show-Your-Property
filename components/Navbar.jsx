@@ -5,20 +5,18 @@ import profileDefault from "@/assets/images/profile.png";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { FaGoogle, FaGithub } from "react-icons/fa";
+import { useEffect, useState, useRef } from "react";
+import { FaGoogle, FaGithub, FaBell, FaPlus } from "react-icons/fa";
 import { signIn, signOut, getProviders, useSession } from "next-auth/react";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
-  const authnticatedUserProfile = session?.user.image;
+  const profileImage = session?.user?.image;
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [providers, setProviders] = useState(null);
-
-  const profileImage = session?.user.image;
-
+  const profileRef = useRef(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -29,248 +27,214 @@ const Navbar = () => {
     setProvidersValue();
   }, []);
 
+  // close profile menu on outside click
+
+  const navLink = (href, label) => (
+    <Link
+      href={href}
+      onClick={() => setIsMobileMenuOpen(false)}
+      className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200
+        ${
+          pathname === href
+            ? "text-white bg-white/15"
+            : "text-white/70 hover:text-white hover:bg-white/10"
+        }`}
+    >
+      {label}
+      {pathname === href && (
+        <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white" />
+      )}
+    </Link>
+  );
+
   return (
-    <nav className="bg-blue-700 border-b border-blue-500">
-      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-20 items-center justify-between">
-          <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
-            {/* <!-- Mobile menu button--> */}
-            <button
-              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-              type="button"
-              id="mobile-dropdown-button"
-              className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-              aria-controls="mobile-menu"
-              aria-expanded="false"
-            >
-              <span className="absolute -inset-0.5"></span>
-              <span className="sr-only">Open main menu</span>
-              <svg
-                className="block h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                />
-              </svg>
-            </button>
+    <nav className="sticky top-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-white/10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between gap-4">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2.5 shrink-0">
+            <Image className="h-8 w-auto" src={logo} alt="PropertyPulse" />
+            <span className="hidden md:block text-white text-lg font-bold tracking-tight">
+              PropertyPulse
+            </span>
+          </Link>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-1">
+            {navLink("/", "Home")}
+            {navLink("/properties", "Properties")}
+            {status === "authenticated" &&
+              navLink("/properties/add", "Add Property")}
           </div>
 
-          <div className="flex flex-1 items-center justify-center md:items-stretch md:justify-start">
-            {/* <!-- Logo --> */}
-            <Link className="flex shrink-0 items-center" href="/">
-              <Image className="h-10 w-auto" src={logo} alt="PropertyPulse" />
-
-              <span className="hidden md:block text-white text-2xl font-bold ml-2">
-                PropertyPulse
-              </span>
-            </Link>
-            {/* <!-- Desktop Menu Hidden below md screens --> */}
-            <div className="hidden md:ml-6 md:block">
-              <div className="flex space-x-2">
-                <Link
-                  href="/"
-                  className={`text-white ${pathname === "/" ? "bg-black" : ""} hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
-                >
-                  Home
-                </Link>
-                <Link
-                  href="/properties"
-                  className={`text-white ${pathname === "/properties" ? "bg-black" : ""} hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
-                >
-                  Properties
-                </Link>
-                {status === "authenticated" && (
-                  <Link
-                    href="/properties/add"
-                    className={`text-white ${pathname === "/properties/add" ? "bg-black" : ""} hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
-                  >
-                    Add Property
-                  </Link>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* <!-- Right Side Menu (Logged Out) --> */}
-          {status !== "loading" && status !== "authenticated" && (
-            <div className="hidden md:block md:ml-6">
-              <div className="flex items-center space-x-1">
+          {/* Right Side */}
+          <div className="flex items-center gap-3">
+            {/* Logged Out */}
+            {status !== "loading" && status !== "authenticated" && (
+              <div className="hidden md:flex items-center gap-2">
                 {providers &&
                   Object.values(providers).map((provider) => (
                     <button
                       key={provider.id}
-                      className={`flex items-center text-white  hover:bg-gray-900 ${provider.id === "github" ? "bg-gray-950" : "bg-gray-700"} hover:text-white rounded-md px-3 py-2`}
                       onClick={() => signIn(provider.id)}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-white
+                        ${
+                          provider.id === "github"
+                            ? "bg-gray-800 hover:bg-gray-700 border border-white/10"
+                            : "bg-blue-600 hover:bg-blue-500"
+                        }`}
                     >
                       {provider.id === "google" && (
-                        <FaGoogle className="text-white mr-2.5" />
-                      )}{" "}
-                      {provider.id === "github" && (
-                        <FaGithub className="text-white mr-2.5" />
+                        <FaGoogle className="text-sm" />
                       )}
-                      <span>Login or Register</span>
+                      {provider.id === "github" && (
+                        <FaGithub className="text-sm" />
+                      )}
+                      Sign in
                     </button>
                   ))}
               </div>
-            </div>
-          )}
-          {/* <!-- Right Side Menu (Logged In) --> */}
+            )}
 
-          {status === "authenticated" && (
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
-              <Link href="/messages" className="relative group">
-                <button
-                  type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+            {/* Logged In */}
+            {status === "authenticated" && (
+              <div className="flex items-center gap-3">
+                {/* Bell */}
+                <Link href="/messages" className="relative">
+                  <button className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/15 text-white/70 hover:text-white transition-all duration-200">
+                    <FaBell className="text-sm" />
+                  </button>
+                  <span className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center text-[10px] font-bold text-white bg-red-500 rounded-full">
+                    2
+                  </span>
+                </Link>
+
+                {/* Add Property shortcut */}
+                <Link
+                  href="/properties/add"
+                  className="hidden md:flex items-center gap-1.5 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all duration-200"
                 >
-                  <span className="absolute -inset-1.5"></span>
-                  <span className="sr-only">View notifications</span>
-                  <svg
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
-                    />
-                  </svg>
-                </button>
-                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
-                  2
-                  {/* <!-- Replace with the actual number  of notifications --> */}
-                </span>
-              </Link>
-              {/* <!-- Profile dropdown button --> */}
-              <div className="relative ml-3">
-                <div>
+                  <FaPlus className="text-xs" />
+                  Add
+                </Link>
+
+                {/* Profile */}
+                <div className="relative" ref={profileRef}>
                   <button
-                    type="button"
                     onClick={() => setIsProfileMenuOpen((prev) => !prev)}
-                    className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                    id="user-menu-button"
-                    aria-expanded="false"
-                    aria-haspopup="true"
+                    className="w-9 h-9 rounded-lg overflow-hidden ring-2 ring-white/20 hover:ring-white/50 transition-all duration-200"
                   >
-                    <span className="absolute -inset-1.5"></span>
-                    <span className="sr-only">Open user menu</span>
                     <Image
-                      className="h-8 w-8 rounded-full"
-                      src={authnticatedUserProfile || profileDefault}
-                      alt=""
-                      width={34}
-                      height={34}
+                      src={profileImage || profileDefault}
+                      alt="profile"
+                      width={36}
+                      height={36}
+                      className="w-full h-full object-cover"
                     />
                   </button>
+
+                  {isProfileMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-48 rounded-xl bg-gray-900 border border-white/10 shadow-xl shadow-black/40 py-1 z-50">
+                      <div className="px-3 py-2 border-b border-white/10 mb-1">
+                        <p className="text-white text-sm font-medium truncate">
+                          {session?.user?.name}
+                        </p>
+                        <p className="text-white/40 text-xs truncate">
+                          {session?.user?.email}
+                        </p>
+                      </div>
+                      {[
+                        { href: "/profile", label: "Your Profile" },
+                        {
+                          href: "/properties/saved",
+                          label: "Saved Properties",
+                        },
+                      ].map(({ href, label }) => (
+                        <Link
+                          key={href}
+                          href={href}
+                          onClick={() => setIsProfileMenuOpen(false)}
+                          className="block px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                        >
+                          {label}
+                        </Link>
+                      ))}
+                      <div className="border-t border-white/10 mt-1 pt-1">
+                        <button
+                          onClick={() => {
+                            setIsProfileMenuOpen(false);
+                            signOut();
+                          }}
+                          className="w-full text-left px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-white/10 transition-colors"
+                        >
+                          Sign Out
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
-
-                {/* <!-- Profile dropdown --> */}
-
-                {isProfileMenuOpen && (
-                  <div
-                    id="user-menu"
-                    className=" absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-labelledby="user-menu-button"
-                    tabIndex="-1"
-                  >
-                    <Link
-                      href="/profile"
-                      className="block px-4 py-2 text-sm text-gray-700"
-                      role="menuitem"
-                      tabIndex="-1"
-                      id="user-menu-item-0"
-                      onClick={() => setIsProfileMenuOpen(false)}
-                    >
-                      Your Profile
-                    </Link>
-                    <Link
-                      href="/properties/saved"
-                      className="block px-4 py-2 text-sm text-gray-700"
-                      role="menuitem"
-                      tabIndex="-1"
-                      onClick={() => setIsProfileMenuOpen(false)}
-                      id="user-menu-item-2"
-                    >
-                      Saved Properties
-                    </Link>
-                    <button
-                      onClick={() => {
-                        setIsProfileMenuOpen(false);
-                        signOut();
-                      }}
-                      className="block px-4 py-2 text-sm text-gray-700"
-                      role="menuitem"
-                      tabIndex="-1"
-                      id="user-menu-item-2"
-                    >
-                      Sign Out
-                    </button>
-                  </div>
-                )}
               </div>
-            </div>
-          )}
+            )}
+
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+              className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/15 text-white transition-all duration-200"
+            >
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+              >
+                {isMobileMenuOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* <!-- Mobile menu, show/hide based on menu state. --> */}
+      {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div id="mobile-menu">
-          <div className="space-y-1 px-2 pb-3 pt-2">
-            <Link
-              href="/"
-              className={`text-white block ${pathname === "/" ? "bg-gray-900" : ""} rounded-md px-3 py-2 text-base font-medium`}
-            >
-              Home
-            </Link>
-            <Link
-              href="/properties"
-              className={`text-white block ${pathname === "/properties" ? "bg-gray-900" : ""} rounded-md px-3 py-2 text-base font-medium`}
-            >
-              Properties
-            </Link>
-            {status === "authenticated" && (
-              <Link
-                href="/properties/add"
-                className={`text-white ${pathname === "/properties/add" ? "bg-black" : ""} hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
-              >
-                Add Property
-              </Link>
-            )}
-            {status !== "authenticated" &&
-              providers &&
-              Object.values(providers).map((provider) => (
+        <div className="md:hidden border-t border-white/10 bg-gray-950/95 backdrop-blur-md px-4 py-3 space-y-1">
+          {navLink("/", "Home")}
+          {navLink("/properties", "Properties")}
+          {status === "authenticated" &&
+            navLink("/properties/add", "Add Property")}
+
+          {status !== "authenticated" && providers && (
+            <div className="pt-2 flex flex-col gap-2">
+              {Object.values(providers).map((provider) => (
                 <button
                   key={provider.id}
-                  className={`flex items-center text-white  hover:bg-gray-900 ${provider.id === "github" ? "bg-gray-950" : "bg-gray-700"} hover:text-white rounded-md px-3 py-2`}
                   onClick={() => signIn(provider.id)}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-white transition-all
+                    ${provider.id === "github" ? "bg-gray-800" : "bg-blue-600"}`}
                 >
-                  {provider.id === "google" && (
-                    <FaGoogle className="text-white mr-2.5" />
-                  )}{" "}
-                  {provider.id === "github" && (
-                    <FaGithub className="text-white mr-2.5" />
-                  )}
-                  <span>Login or Register</span>
+                  {provider.id === "google" && <FaGoogle />}
+                  {provider.id === "github" && <FaGithub />}
+                  Sign in with {provider.name}
                 </button>
               ))}
-          </div>
+            </div>
+          )}
         </div>
       )}
     </nav>
   );
 };
+
 export default Navbar;

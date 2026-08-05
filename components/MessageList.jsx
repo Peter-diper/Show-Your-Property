@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Message from "./Message";
+import MessageSkeleton from "./MessageSkeleton";
 
 const MessageList = () => {
   const [messages, setMessages] = useState([]);
@@ -46,7 +47,9 @@ const MessageList = () => {
           </div>
 
           <div className="p-6 space-y-5">
-            {messages.length === 0 ? (
+            {loading && [1, 2].map((load) => <MessageSkeleton key={load} />)}
+
+            {!loading & (messages.length === 0) ? (
               <p className="text-center">You have no message</p>
             ) : (
               messages.map((message) => (
@@ -61,4 +64,3 @@ const MessageList = () => {
 };
 
 export default MessageList;
-``;

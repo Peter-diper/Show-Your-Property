@@ -14,7 +14,7 @@ const SavedProperties = () => {
   }
 
   return (
-    <section className="px-4 py-6">
+    <section className="px-4 py-6 min-h-[100vh]">
       <div className="container-xl lg:container m-auto px-4 py-6">
         {properties.length === 0 ? (
           <p>no saved bookmarks</p>
