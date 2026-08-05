@@ -79,7 +79,7 @@ const PropertyPage = () => {
           {/* property info */}
           <section className="">
             <div className="container m-auto py-10 px-6">
-              <div className="grid grid-cols-1 md:grid-cols-[70%_29%] w-full gap-6 transition-all">
+              <div className="grid  grid-cols-1 md:grid-cols-[70%_29%] w-full gap-6 transition-all">
                 <PropertyDetails property={property} />
 
                 {/* <!-- Sidebar --> */}

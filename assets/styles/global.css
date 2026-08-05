@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+.color-gradient-2 {
+  @apply bg-linear-5 via-gray-900 from-gray-800 to-black;
+}
+
 @theme {
   --animate-soft-intro: soft-intro 200ms ease-in-out;
 
