@@ -3,6 +3,15 @@
 .color-gradient-2 {
   @apply bg-linear-5 via-gray-900 from-gray-800 to-black;
 }
+.color-gradient-3 {
+  @apply bg-linear-5 via-gray-800 from-gray-800;
+}
+.color-gradient-box {
+  @apply bg-linear-5 via-gray-800 from-gray-800 text-white;
+}
+.color-gradient-box-2 {
+  @apply bg-linear-185 via-gray-800 from-green-600/60 text-green-400/80;
+}
 
 @theme {
   --animate-soft-intro: soft-intro 200ms ease-in-out;

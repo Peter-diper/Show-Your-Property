@@ -7,16 +7,17 @@ const InfoBoxes = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-lg">
           <InfoBox
             title={"For Renters"}
-            backgroundColor="bg-gray-100"
+            backgroundColor="color-gradient-box"
             buttonInfo={{
               href: "/properties",
               text: "For Renters",
-              backgroundColor: "bg-black",
+              backgroundColor: "bg-white/10",
             }}
           >
             Find your dream rental property. Bookmark properties and contact
             owners.
           </InfoBox>
+
           <InfoBox
             title={"For Property Owners"}
             buttonInfo={{
@@ -24,7 +25,7 @@ const InfoBoxes = () => {
               text: "For Renters",
               backgroundColor: "bg-gray-500",
             }}
-            backgroundColor="bg-gray-300"
+            backgroundColor="color-gradient-box-2 "
           >
             List your properties and reach potential tenants. Rent as an airbnb
             or long term.

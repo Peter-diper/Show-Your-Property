@@ -4,7 +4,7 @@ import React from "react";
 const InfoBox = ({
   title,
   backgroundColor = "bg-gray-100",
-  textColor = "text-gray-800",
+  textColor,
   buttonInfo = { href: null, text: null, backgroundColor: null },
   children,
 }) => {
