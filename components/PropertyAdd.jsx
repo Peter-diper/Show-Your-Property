@@ -85,9 +85,9 @@ const PropertyAdd = () => {
                 "Room",
                 "Studio",
                 "Other",
-              ].map((v) => (
-                <option key={v} value={v} className="bg-gray-900">
-                  {v}
+              ].map((typeOption) => (
+                <option key={typeOption} value={typeOption} className="bg-gray-900">
+                  {typeOption}
                 </option>
               ))}
             </select>
