@@ -58,13 +58,11 @@ const PropertyAdd = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black py-12 px-4">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-900 to-black py-12 px-4">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-white tracking-tight">
-            Add Property
-          </h2>
+          <h2 className="text-3xl font-bold text-white ">Add Property</h2>
           <p className="text-white/40 text-sm mt-2">
             Fill in the details below to list your property
           </p>
@@ -86,7 +84,11 @@ const PropertyAdd = () => {
                 "Studio",
                 "Other",
               ].map((typeOption) => (
-                <option key={typeOption} value={typeOption} className="bg-gray-900">
+                <option
+                  key={typeOption}
+                  value={typeOption}
+                  className="bg-gray-900"
+                >
                   {typeOption}
                 </option>
               ))}

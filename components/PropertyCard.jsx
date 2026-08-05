@@ -21,7 +21,10 @@ const PropertyCard = ({ property }) => {
   };
 
   return (
-    <div key={property._id} className="rounded-xl shadow-md relative">
+    <div
+      key={property._id}
+      className="rounded-xl border bg-black/20  border-white/23 shadow-md relative"
+    >
       <Image
         src={property.images[0]}
         alt=""
@@ -33,14 +36,14 @@ const PropertyCard = ({ property }) => {
       />
       <div className="p-4">
         <div className="text-left md:text-center lg:text-left mb-6">
-          <div className="text-gray-600">{property.type}</div>
-          <h3 className="text-xl font-bold">{property.name}</h3>
+          <div className="text-white/70">{property.type}</div>
+          <h3 className="text-xl text-white/90 font-bold">{property.name}</h3>
         </div>
         <h3 className="absolute top-2.5 right-2.5 bg-white px-4 py-2 rounded-lg text-gray-500 font-bold text-right md:text-center lg:text-right">
           ${getRateDisplay()}
         </h3>
 
-        <div className="flex justify-center gap-4 text-gray-500 mb-4">
+        <div className="flex justify-center gap-4 text-gray-300 mb-4">
           <p>
             <i className="fa-solid fa-bed">
               {<FaBed className="inline mr-2" />}
@@ -62,7 +65,7 @@ const PropertyCard = ({ property }) => {
           </p>
         </div>
 
-        <div className="flex justify-center gap-4 text-green-900 text-sm mb-4">
+        <div className="flex justify-center gap-4 text-green-400 text-sm mb-4">
           {property.rates?.nightly && (
             <p>
               <i className="fa-solid fa-money-bill">
