@@ -2,8 +2,6 @@
 import { useEffect, useState } from "react";
 import PropertyCard from "@/components/PropertyCard";
 import PropertyCardSkeleton from "@/components/PropertyCardSkeleton";
-import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa";
 import { useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import PropertySearchForm from "@/components/PropertySearchForm";
