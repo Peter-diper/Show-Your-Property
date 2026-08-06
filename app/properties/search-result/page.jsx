@@ -42,14 +42,14 @@ const SearchResultPage = () => {
 
   if (loading) {
     return (
-      <>
+      <div className="min-h-screen">
         <section className=" bg-gray-700 ">
           <div className="container-xl lg:container m-auto px-4 py-6">
             <PropertySearchForm />
           </div>
         </section>
         <section className="px-4 py-6">
-          <h1 className="text-2xl font-medium">
+          <h1 className="text-2xl text-white  font-medium">
             Property Search Results:{" "}
             <span className="inline-block text-gray-300 text-lg animate-pulse">
               (0)
@@ -63,21 +63,22 @@ const SearchResultPage = () => {
             </div>
           </div>
         </section>
-      </>
+      </div>
     );
   }
 
   return (
-    <>
+    <div className="min-h-screen">
       <section className=" bg-gray-700 ">
         <div className="container-xl lg:container m-auto px-4 py-6">
           <PropertySearchForm />
         </div>
       </section>
+
       <section className="px-4 py-6">
-        <h1 className="text-2xl font-medium">
+        <h1 className="text-2xl text-white font-medium">
           Property Search Results:{" "}
-          <span className="inline-block text-gray-800 text-lg animate-pulse">
+          <span className="inline-block text-gray-200 text-lg animate-pulse">
             ({properties.length})
           </span>
         </h1>
@@ -93,7 +94,7 @@ const SearchResultPage = () => {
           )}
         </div>
       </section>
-    </>
+    </div>
   );
 };
 export default SearchResultPage;
