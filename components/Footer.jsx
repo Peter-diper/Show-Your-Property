@@ -10,8 +10,8 @@ const Footer = () => {
         <Image src={logo} alt="Logo" className="h-7 w-auto opacity-70" />
 
         <p className="text-white/30 text-xs text-center">
-          &copy; {currentYear} PropertyPulse. All rights reserved by{" "}
-          <span className="text-white/50 font-semibold">Rasool Fada</span>.
+          &copy; {currentYear} Property Deal. All rights reserved by{" "}
+          <span className="text-green-400/80 font-bold">Rasool Fada</span>.
         </p>
       </div>
     </footer>

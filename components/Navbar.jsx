@@ -55,7 +55,8 @@ const Navbar = () => {
           <Link href="/" className="flex items-center gap-2.5 shrink-0">
             <Image className="h-8 w-auto" src={logo} alt="PropertyPulse" />
             <span className="hidden md:block text-white text-lg font-bold tracking-tight">
-              PropertyPulse
+              Property
+              <span className="text-green-400 font-extrabold">Deal</span>
             </span>
           </Link>
 

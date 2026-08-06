@@ -1,7 +1,7 @@
 const PropertyCardSkeleton = () => {
   return (
     <div className="rounded-xl shadow-md relative animate-pulse">
-      <div className="w-full h-73 bg-gray-700 rounded-t-xl" />
+      <div className="w-full h-78 bg-gray-700 rounded-t-xl" />
 
       <div className="p-4">
         <div className="text-left md:text-center lg:text-left mb-6">
