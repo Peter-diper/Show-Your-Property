@@ -1,32 +1,18 @@
 import Link from "next/link";
-import React from "react";
-import { FaExclamationTriangle } from "react-icons/fa";
 
-const NotFoundePgae = () => {
+export default function NotFound() {
   return (
-    <section className="bg-blue-50 min-h-screen grow">
-      <div className="container m-auto max-w-2xl py-24">
-        <div className="bg-white px-6 py-24 mb-4 shadow-md rounded-md border m-4 md:m-0">
-          <div className="flex justify-center">
-            <FaExclamationTriangle className="text-8xl text-blue-500/80" />
-          </div>
-          <div className="text-center">
-            <h1 className="text-3xl font-bold mt-4 mb-2">Page Not Found</h1>
-            <p className="text-gray-500 text-xl mb-10">
-              The page you are looking for does not exist.
-            </p>
-            <Link
-              href="/"
-              className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-4 px-6 rounded"
-            >
-              Go Home
-            </Link>
-          </div>
-        </div>
+    <div className="min-h-screen px-5 bg-gradient-to-br from-gray-900 via-gray-950 to-black flex items-center justify-center">
+      <div className="bg-white/5 backdrop-blur-xl border max-w-200 w-full border-white/10 rounded-2xl p-10 text-center shadow-xl">
+        <h1 className="text-6xl font-bold text-white mb-2">404 :)</h1>
+        <p className="text-white/40 text-sm mb-6">Dude there is nothing here</p>
+        <Link
+          href="/"
+          className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all duration-200"
+        >
+          Back to Home
+        </Link>
       </div>
-      <div className="grow"></div>
-    </section>
+    </div>
   );
-};
-
-export default NotFoundePgae;
+}
