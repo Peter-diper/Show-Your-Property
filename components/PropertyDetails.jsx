@@ -61,7 +61,7 @@ const PropertyDetails = ({ property }) => {
         <h3 className="text-lg text-white/60 font-bold mb-6">
           Description & Details
         </h3>
-        <div className="flex justify-center gap-4 text-blue-500 mb-4 text-xl space-x-9">
+        <div className="flex justify-center gap-4 text-green-500 mb-4 text-xl space-x-9">
           <p>
             <FaBed className=" inline-block mr-2" /> {property.beds}
             <span className="hidden sm:inline"> Beds</span>
@@ -77,7 +77,7 @@ const PropertyDetails = ({ property }) => {
           </p>
         </div>
 
-        <p className="text-gray-500 mb-4 text-center">{property.description}</p>
+        <p className="text-gray-200 mb-4 text-center">{property.description}</p>
       </div>
 
       <div className="bg-white p-6 rounded-lg color-gradient-2 text-white shadow-md mt-6">

@@ -6,6 +6,7 @@ import defaultProfile from "@/assets/images/profile.png";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import ProfileSkeleton from "@/components/profileLoadingPage";
+import { FaEdit, FaTrash, FaMapMarkerAlt } from "react-icons/fa";
 
 const ProfilePage = () => {
   const { data: session } = useSession();
@@ -20,9 +21,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     const retrieveUserProperties = async (userId) => {
-      if (!userId) {
-        return;
-      }
+      if (!userId) return;
       try {
         const res = await fetch(`/api/properties/user/${userId}`);
         if (res.status === 200) {
@@ -34,33 +33,25 @@ const ProfilePage = () => {
         setLoading(false);
       }
     };
-
-    //fetch user properties when session is available
-    if (session?.user.id) {
-      retrieveUserProperties(session?.user.id);
-    }
+    if (session?.user.id) retrieveUserProperties(session?.user.id);
   }, [session]);
 
   const handleDeleteProperty = async (propertyId) => {
-    const confirm = window.confirm("Are You sure about deleting this property");
+    const confirm = window.confirm(
+      "Are you sure about deleting this property?",
+    );
     setDeletedProperty(propertyId);
     if (!propertyId || !confirm) return;
-
     setDeletionLoading(true);
     const res = await fetch(`/api/properties/${propertyId}`, {
       method: "DELETE",
     });
-
     try {
       if (res.status === 200) {
-        // update state
-        const updatedProperties = properties.filter(
-          (property) => property._id !== propertyId,
-        );
-        setProperties(updatedProperties);
+        setProperties(properties.filter((p) => p._id !== propertyId));
         toast.success("Property deleted");
       } else {
-        toast.error("property has not bein deleted!");
+        toast.error("Property has not been deleted!");
       }
     } catch (error) {
     } finally {
@@ -71,76 +62,124 @@ const ProfilePage = () => {
   if (loading) return <ProfileSkeleton />;
 
   return (
-    <section className="bg-blue-50">
-      <div className="container m-auto py-24 transition-all duration-150 ease-out">
-        <div className="bg-white px-6 py-8 mb-4 shadow-md rounded-md border border-gray-300 m-4 md:m-0">
-          <h1 className="text-3xl font-bold mb-4">Your Profile</h1>
-          <div className="flex flex-col md:flex-row">
-            <div className="md:w-1/4 mx-20 mt-10">
-              <div className="mb-4">
+    <section className="min-h-screen bg-linear-to-br from-gray-900 via-gray-950 to-black py-12 px-4">
+      <div className="max-w-5xl mx-auto space-y-6">
+        {/* Profile Card */}
+        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-xl shadow-black/30">
+          <h1 className="text-2xl font-bold text-white mb-6 tracking-tight">
+            Your Profile
+          </h1>
+          <div className="flex flex-col md:flex-row items-start gap-8">
+            {/* Avatar + Info */}
+            <div className="flex flex-col items-center md:items-start gap-4 md:w-1/4">
+              <div className="ring-2 ring-white/20 rounded-full p-1">
                 <Image
-                  className="h-32 w-32 md:h-48 md:w-48 rounded-full mx-auto md:mx-0"
+                  className="h-28 w-28 rounded-full object-cover"
                   src={userImage || defaultProfile}
                   alt="User"
-                  width={200}
-                  height={200}
+                  width={112}
+                  height={112}
                 />
               </div>
-              <h2 className="text-2xl mb-4">
-                <span className="font-bold block">Name: </span> {userName}
-              </h2>
-              <h2 className="text-2xl">
-                <span className="font-bold block">Email: </span> {userEmail}
-              </h2>
+              <div className="text-center md:text-left">
+                <p className="text-white/40 text-xs uppercase tracking-wider mb-1">
+                  Name
+                </p>
+                <p className="text-white font-semibold">{userName}</p>
+              </div>
+              <div className="text-center md:text-left">
+                <p className="text-white/40 text-xs uppercase tracking-wider mb-1">
+                  Email
+                </p>
+                <p className="text-white/70 text-sm">{userEmail}</p>
+              </div>
             </div>
 
-            <div className="md:w-3/4 md:pl-4">
-              <h2 className="text-xl font-semibold mb-4">Your Listings</h2>
-              {!loading && properties.length === 0 && (
-                <p>You have no Property listings</p>
-              )}
-              {properties.map((property) => (
-                <div key={property._id} className="mb-10">
-                  <Link href={`/properties/${property._id}`}>
-                    <Image
-                      className="h-32 w-full rounded-md object-cover"
-                      src={property.images[0]}
-                      alt="Property 1"
-                      width={640}
-                      height={256}
-                      loading="eager"
-                    />
-                  </Link>
-                  <div className="mt-2">
-                    <p className="text-lg font-semibold">{property.name}</p>
-                    <p className="text-gray-600">
-                      Address:{" "}
-                      {property.location.city +
-                        ", " +
-                        property.location.state +
-                        ", " +
-                        property.location.street}
-                    </p>
-                  </div>
-                  <div className="mt-2">
-                    <Link
-                      href={`/properties/${property._id}/edit`}
-                      className="bg-blue-500 text-white px-3 py-3 rounded-md mr-2 hover:bg-blue-600"
-                    >
-                      Edit
-                    </Link>
-                    <button
-                      onClick={() => handleDeleteProperty(property._id)}
-                      className={`${deletionLoading && deletedProperty === property._id ? "bg-gray-500  hover:bg-gray-600 animate-pulse " : "bg-red-500  hover:bg-red-600"} transition-all duration-75 text-white px-3 py-2 rounded-md`}
-                      type="button"
-                    >
-                      {deletionLoading && deletedProperty === property._id
-                        ? "Deleting..."
-                        : "Delete"}
-                    </button>
-                  </div>
+            {/* Listings */}
+            <div className="md:w-3/4 w-full">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-white/80 font-semibold text-sm uppercase tracking-wider">
+                  Your Listings
+                </h2>
+                <span className="bg-blue-500/20 text-blue-300 border border-blue-500/30 text-xs font-semibold px-3 py-1 rounded-full">
+                  {properties.length} Properties
+                </span>
+              </div>
+
+              {properties.length === 0 ? (
+                <div className="text-center py-12 border border-white/10 rounded-xl">
+                  <p className="text-white/30 text-sm">
+                    No property listings yet
+                  </p>
                 </div>
-              ))}
+              ) : (
+                <div className="space-y-4">
+                  {properties.map((property) => (
+                    <div
+                      key={property._id}
+                      className="bg-white/5 border border-white/10 rounded-xl overflow-hidden flex flex-col sm:flex-row gap-4 p-4"
+                    >
+                      <Link
+                        href={`/properties/${property._id}`}
+                        className="shrink-0"
+                      >
+                        <Image
+                          className="h-28 w-full sm:w-44 rounded-lg object-cover"
+                          src={property.images[0]}
+                          alt={property.name}
+                          width={176}
+                          height={112}
+                          loading="eager"
+                        />
+                      </Link>
+                      <div className="flex flex-col justify-between flex-1">
+                        <div>
+                          <p className="text-white font-semibold">
+                            {property.name}
+                          </p>
+                          <p className="text-white/40 text-xs flex items-center gap-1 mt-1">
+                            <FaMapMarkerAlt className="text-[10px]" />
+                            {[
+                              property.location.street,
+                              property.location.city,
+                              property.location.state,
+                            ]
+                              .filter(Boolean)
+                              .join(", ")}
+                          </p>
+                        </div>
+                        <div className="flex gap-2 mt-3">
+                          <Link
+                            href={`/properties/${property._id}/edit`}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600/80 hover:bg-blue-500 text-white text-xs font-medium transition-all duration-200"
+                          >
+                            <FaEdit className="text-[10px]" /> Edit
+                          </Link>
+                          <button
+                            onClick={() => handleDeleteProperty(property._id)}
+                            disabled={
+                              deletionLoading &&
+                              deletedProperty === property._id
+                            }
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white text-xs font-medium transition-all duration-200
+                              ${
+                                deletionLoading &&
+                                deletedProperty === property._id
+                                  ? "bg-gray-500/50 animate-pulse cursor-not-allowed"
+                                  : "bg-red-500/80 hover:bg-red-500"
+                              }`}
+                          >
+                            <FaTrash className="text-[10px]" />
+                            {deletionLoading && deletedProperty === property._id
+                              ? "Deleting..."
+                              : "Delete"}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

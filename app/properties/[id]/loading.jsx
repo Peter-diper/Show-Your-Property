@@ -1,7 +1,7 @@
-import PropertyCardSkeleton from "@/components/PropertyCardSkeleton";
+import PageDetailLoading from "@/components/PageDetailLoading";
 
 const LoadinDetail = () => {
-  return <PropertyCardSkeleton />;
+  return <PageDetailLoading />;
 };
 
 export default LoadinDetail;
