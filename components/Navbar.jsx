@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import { FaGoogle, FaGithub, FaBell, FaPlus } from "react-icons/fa";
 import { signIn, signOut, getProviders, useSession } from "next-auth/react";
+import MessageCount from "./MessageCoun";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -105,9 +106,8 @@ const Navbar = () => {
                   <button className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/15 text-white/70 hover:text-white transition-all duration-200">
                     <FaBell className="text-sm" />
                   </button>
-                  <span className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center text-[10px] font-bold text-white bg-red-500 rounded-full">
-                    2
-                  </span>
+                  {/* message counter */}
+                  <MessageCount />
                 </Link>
 
                 {/* Add Property shortcut */}

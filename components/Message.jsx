@@ -46,7 +46,7 @@ const Message = ({ message }) => {
             <span className="bg-green-200 animate-soft-intro  text-green-900 text-xs  font-semibold px-6 py-2 rounded-full">
               New
             </span>
-            <div className="absolute top-5.5 right-5.5 border-2 border-green-700/20  animate-ping  px-9 py-4 rounded-full"></div>
+            <div className="absolute top-5.5 right-5.5 border-2 border-green-600/50  animate-ping  px-9 py-4 rounded-full"></div>
           </>
         )}
       </div>
