@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import { FaGoogle, FaGithub, FaBell, FaPlus } from "react-icons/fa";
 import { signIn, signOut, getProviders, useSession } from "next-auth/react";
-import MessageCount from "./MessageCoun";
+import MessageCount from "./MessageCount";
 
 const Navbar = () => {
   const { data: session, status } = useSession();

@@ -1,6 +1,9 @@
+import { useGlobalStore } from "@/store/store";
 import React, { useEffect, useState } from "react";
 
 const MessageCount = () => {
+  const { unReadcount, setReadcount } = useGlobalStore();
+
   const [unreadMessages, setUnreadMessages] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -12,8 +15,9 @@ const MessageCount = () => {
 
         if (res.status === 200) {
           const data = await res.json();
-
-          setUnreadMessages(data);
+          console.log(unReadcount);
+          setReadcount(data);
+          console.log(unReadcount);
         }
       } catch (error) {
         console.log(error);
@@ -29,7 +33,7 @@ const MessageCount = () => {
       <span
         className={`absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center text-[10px] font-bold text-white ${loading ? "bg-gray-500 animate-pulse " : "bg-red-500"} rounded-full`}
       >
-        {loading ? ".." : unreadMessages}
+        {loading ? ".." : unReadcount}
       </span>
     )
   );

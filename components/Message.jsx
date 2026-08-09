@@ -1,4 +1,5 @@
 "use client";
+import { useGlobalStore } from "@/store/store";
 import { useState } from "react";
 import { FaEnvelope, FaPhone, FaCalendarAlt, FaUser } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -6,6 +7,7 @@ import { toast } from "react-toastify";
 const Message = ({ message }) => {
   const [isRead, setIsRead] = useState(message.read);
   const [loading, setLoading] = useState(false);
+  const { increment, decrement } = useGlobalStore();
 
   const handleReadClick = async (request) => {
     setLoading(true);
@@ -17,6 +19,7 @@ const Message = ({ message }) => {
       if (res.status === 200) {
         const { read } = await res.json();
         setIsRead(read);
+        read ? decrement() : increment();
         console.log(read);
         toast.success(read ? "Marcked as read" : "Marked as New");
       }
