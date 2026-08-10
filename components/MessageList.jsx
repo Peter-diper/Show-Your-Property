@@ -27,10 +27,10 @@ const MessageList = () => {
   }, []);
 
   return (
-    <section className="min-h-screen bg-linear-to-br from-gray-900 via-gray-950 to-black py-12 px-4">
+    <section className="min-h-screen  bg-linear-to-br from-gray-900 via-gray-950 to-black py-12 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl shadow-black/30 overflow-hidden">
+        <div className="bg-white/4  backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl shadow-black/30 overflow-hidden">
           <div className="border-b border-white/10 px-8 py-6 flex md:items-center md:justify-between md:flex-row items-start gap-3 flex-col">
             <div>
               <h1 className="text-2xl font-bold text-white tracking-tight">
@@ -47,7 +47,8 @@ const MessageList = () => {
           </div>
 
           {/* Messages */}
-          <div className="p-6 space-y-4">
+          <div className="p-6 space-y-4 bg">
+            {/* loading skeleton */}
             {loading && [1, 2].map((load) => <MessageSkeleton key={load} />)}
 
             {!loading && messages.length === 0 ? (

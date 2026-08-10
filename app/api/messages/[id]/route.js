@@ -46,3 +46,34 @@ export const PUT = async (request, { params }) => {
     return NextResponse.json("something went wrong", { status: 500 });
   }
 };
+
+// delete /api/messages/:id
+
+export const DELETE = async (request, { params }) => {
+  try {
+    await connectDB();
+    const { id } = await params;
+
+    const userSession = await getUserSession();
+
+    if (!userSession || !userSession?.userId) {
+      return NextResponse.json(
+        { message: "you need to be logged in" },
+        { status: 401 },
+      );
+    }
+
+    const deletedMessage = await Message.findById(id);
+
+    if (!deletedMessage) {
+      return NextResponse.json(
+        { message: "could not find the property" },
+        { status: 400 },
+      );
+    }
+
+    await deletedMessage.deleteOne();
+
+    return NextResponse.json({}, { status: 200 });
+  } catch (error) {}
+};

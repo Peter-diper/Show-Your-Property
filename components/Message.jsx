@@ -7,9 +7,14 @@ import { toast } from "react-toastify";
 const Message = ({ message }) => {
   const [isRead, setIsRead] = useState(message.read);
   const [loading, setLoading] = useState(false);
-  const { increment, decrement } = useGlobalStore();
+  // from store file
+  const increment = useGlobalStore((s) => s.increment);
+  const decrement = useGlobalStore((s) => s.decrement);
+  const [isDeleted, setIsDeleted] = useState(false);
 
-  const handleReadClick = async (request) => {
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
+  const handleReadClick = async () => {
     setLoading(true);
     try {
       const res = await fetch(`/api/messages/${message._id}`, {
@@ -30,6 +35,32 @@ const Message = ({ message }) => {
       setLoading(false);
     }
   };
+
+  const handleDelete = async () => {
+    setLoadingDelete(true);
+    try {
+      const res = await fetch(`/api/messages/${message._id}`, {
+        method: "DELETE",
+      });
+
+      if (res.status === 200) {
+        toast.success();
+        decrement();
+        setIsDeleted(true);
+      } else {
+        const data = await res.json();
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("something went wrong");
+    } finally {
+      setLoadingDelete(false);
+    }
+  };
+
+  //if message was deleted
+  if (isDeleted) return null;
 
   return (
     <div className="group relative border select-none border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-blue-200 transition-all duration-200">
@@ -100,8 +131,11 @@ const Message = ({ message }) => {
           {loading ? "loading ... " : isRead ? "Mark as new" : "Mark as read"}
         </button>
 
-        <button className="px-5 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition">
-          Delete
+        <button
+          onClick={handleDelete}
+          className={`px-5 py-2 rounded-lg text-white ${loadingDelete ? "bg-gray-500  hover:bg-gray-600 animate-pulse" : "bg-red-500  hover:bg-red-600"} transition`}
+        >
+          {loadingDelete ? "Deleting..." : "Delete"}
         </button>
       </div>
     </div>
