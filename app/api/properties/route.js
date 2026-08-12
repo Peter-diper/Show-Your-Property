@@ -4,7 +4,7 @@ import Property from "@/models/Property";
 import { getUserSession } from "@/utils/getUserSession";
 import { NextResponse } from "next/server";
 
-// GET/API/PROPERTIES
+// GET  /API/PROPERTIES
 export const GET = async (request) => {
   try {
     await connectDB();
@@ -27,6 +27,7 @@ export const GET = async (request) => {
   }
 };
 
+// POST  /api/properties
 export const POST = async (request) => {
   try {
     await connectDB();

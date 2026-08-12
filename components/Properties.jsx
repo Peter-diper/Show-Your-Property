@@ -6,24 +6,30 @@ import PropertyCard from "./PropertyCard";
 const Properties = () => {
   const [loading, setLoading] = useState(true);
   const [properties, setProperties] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(3);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const res = await fetch(`/api/properties`);
+        const res = await fetch(
+          `/api/properties?pageSize=${pageSize}&page=${page}`,
+        );
 
         if (!res.ok) {
           throw new Error("faild to fetch property");
         }
         const data = await res.json();
         setProperties(data.properties);
+        setTotal(data.total);
       } catch (error) {
       } finally {
         setLoading(false);
       }
     };
     fetchProperties();
-  }, []);
+  }, [page, pageSize]);
   if (loading) {
     return (
       <section className="px-4 py-6">
