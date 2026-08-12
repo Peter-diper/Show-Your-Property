@@ -59,6 +59,8 @@ const Message = ({ message }) => {
     }
   };
 
+  console.log(message);
+
   //if message was deleted
   if (isDeleted) return null;
 
@@ -67,7 +69,7 @@ const Message = ({ message }) => {
       <div className="flex justify-between items-start mb-4">
         <div>
           <h2 className="text-xl font-semibold  text-slate-800">
-            {message?.property.name}
+            {message?.property?.name || "Propperty Name"}
           </h2>
 
           <p className="text-sm text-blue-600 font-medium mt-1">

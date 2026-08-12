@@ -6,7 +6,7 @@ import PropertyCard from "./PropertyCard";
 const Properties = () => {
   const [loading, setLoading] = useState(true);
   const [properties, setProperties] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(2);
   const [pageSize, setPageSize] = useState(3);
   const [total, setTotal] = useState(0);
 
