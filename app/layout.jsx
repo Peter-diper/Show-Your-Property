@@ -17,10 +17,9 @@ const RootLayout = ({ children }) => {
   return (
     <AuthProvider>
       <html lang="en">
-        <body className={`${inter.className} `}>
+        <body className={`${inter.className}  `}>
           <Navbar />
-          <main className=" h-full min-h-[66vh] bg-linear-to-br from-gray-900 via-gray-900 to-black">
-            {" "}
+          <main className="  min-h-[87vh] bg-linear-to-br from-gray-900 via-gray-900 to-black">
             {children}
           </main>
           <Footer />

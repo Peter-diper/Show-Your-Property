@@ -4,10 +4,10 @@ import PropertyCard from "./PropertyCard";
 import { fetchProperties } from "@/utils/requests";
 
 const HomeProperties = async () => {
-  const properties = await fetchProperties();
+  const data = await fetchProperties();
 
   const recentProperties =
-    [...properties]
+    [...data.properties]
       .sort(
         // eslint-disable-next-line
         () => Math.random() - Math.random(),

@@ -5,11 +5,19 @@ import { getUserSession } from "@/utils/getUserSession";
 import { NextResponse } from "next/server";
 
 // GET/API/PROPERTIES
-export const GET = async () => {
+export const GET = async (request) => {
   try {
     await connectDB();
-    const properties = await Property.find({});
-    return NextResponse.json(properties, { status: 200 });
+
+    const page = request.nextUrl.searchParams.get("page") || 1;
+    const pageSize = request.nextUrl.searchParams.get("pageSize") || 3;
+
+    const skip = (page - 1) * pageSize;
+
+    const total = await Property.countDocuments({});
+
+    const properties = await Property.find({}).skip(skip).limit(pageSize);
+    return NextResponse.json({ properties, total }, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json(
@@ -91,6 +99,7 @@ export const POST = async (request) => {
     const newProperty = new Property(propertyData);
     await newProperty.save();
     console.log(newProperty._id);
+
     return NextResponse.json({ propertyId: newProperty._id }, { status: 200 });
   } catch (error) {
     console.log(error);
