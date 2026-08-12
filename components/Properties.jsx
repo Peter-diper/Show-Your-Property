@@ -2,16 +2,18 @@
 import { useState, useEffect } from "react";
 import PropertyCardSkeleton from "./PropertyCardSkeleton";
 import PropertyCard from "./PropertyCard";
+import Pagination from "./Pagination";
 
 const Properties = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [properties, setProperties] = useState([]);
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(3);
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const fetchProperties = async () => {
+      setLoading(true);
       try {
         const res = await fetch(
           `/api/properties?pageSize=${pageSize}&page=${page}`,
@@ -30,6 +32,11 @@ const Properties = () => {
     };
     fetchProperties();
   }, [page, pageSize]);
+
+  const handleChange = (newPage) => {
+    setPage(newPage);
+  };
+
   if (loading) {
     return (
       <section className="px-4 py-6">
@@ -57,6 +64,12 @@ const Properties = () => {
             ))}
           </div>
         )}
+        <Pagination
+          total={total}
+          page={page}
+          pageSize={pageSize}
+          handleChage={handleChange}
+        />
       </div>
     </section>
   );
