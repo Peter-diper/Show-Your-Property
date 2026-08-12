@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import PropertyCardSkeleton from "./PropertyCardSkeleton";
 import PropertyCard from "./PropertyCard";
 import Pagination from "./Pagination";
+import PaginationSkeleton from "./PaginationSkeleton";
 
 const Properties = () => {
   const [loading, setLoading] = useState(false);
@@ -47,6 +48,7 @@ const Properties = () => {
               <PropertyCardSkeleton key={id} />
             ))}
           </div>
+          <PaginationSkeleton />
         </div>
       </section>
     );
