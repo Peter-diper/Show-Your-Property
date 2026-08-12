@@ -23,17 +23,20 @@ const PropertyCard = ({ property }) => {
   return (
     <div
       key={property._id}
-      className="rounded-xl border bg-black/20  border-white/23 shadow-md relative"
+      className="rounded-xl border overflow-hidden bg-gray-500/10  border-white/4 shadow-md relative"
     >
-      <Image
-        src={property.images[0]}
-        alt=""
-        className="w-full h-75 rounded-t-xl object-cover"
-        sizes="100vw"
-        width={0}
-        height={0}
-        priority
-      />
+      <div className="overflow-hidden h-75">
+        <Image
+          src={property.images[0]}
+          alt=""
+          className=" w-full h-75 hover:scale-110 transition-all duration-300 rounded-t-xl object-cover"
+          sizes="100vw"
+          width={0}
+          height={0}
+          priority
+        />
+      </div>
+
       <div className="p-4">
         <div className="text-left md:text-center lg:text-left mb-6">
           <div className="text-white/70">{property.type}</div>
