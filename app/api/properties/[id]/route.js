@@ -2,7 +2,7 @@ import connectDB from "@/config/db";
 import Property from "@/models/Property";
 import { getUserSession } from "@/utils/getUserSession";
 import { NextResponse } from "next/server";
-
+export const dynamic = "force-dynamic";
 // get/api/properies/id
 export const GET = async (request, { params }) => {
   try {

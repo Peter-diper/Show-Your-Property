@@ -1,8 +1,7 @@
 import connectDB from "@/config/db";
 import Property from "@/models/Property";
 import { NextResponse } from "next/server";
-import { FaLyft } from "react-icons/fa";
-
+export const dynamic = "force-dynamic";
 export const GET = async (request) => {
   try {
     await connectDB();

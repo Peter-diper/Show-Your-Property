@@ -1,7 +1,7 @@
 import connectDB from "@/config/db";
 import Property from "@/models/Property";
 import { NextResponse } from "next/server";
-
+export const dynamic = "force-dynamic";
 export const GET = async (request, { params }) => {
   try {
     await connectDB();
