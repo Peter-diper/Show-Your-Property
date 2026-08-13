@@ -1,3 +1,4 @@
+"use client";
 import PageDetailLoading from "@/components/PageDetailLoading";
 
 const LoadinDetail = () => {
