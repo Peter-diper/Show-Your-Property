@@ -7,7 +7,7 @@ const HomeProperties = async () => {
   const data = await fetchProperties();
 
   const recentProperties =
-    [...data.properties]
+    data.properties
       .sort(
         // eslint-disable-next-line
         () => Math.random() - Math.random(),
