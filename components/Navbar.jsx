@@ -209,33 +209,36 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div
-          className={` ${isMobileMenuOpen ? "" : "max-h-0 overflow-hidden"} transition-all duration-200 md:hidden border-t border-white/10 bg-gray-950/95 backdrop-blur-md px-4 py-3 space-y-1`}
-        >
-          {navLink("/", "Home")}
-          {navLink("/properties", "Properties")}
-          {status === "authenticated" &&
-            navLink("/properties/add", "Add Property")}
 
-          {status !== "authenticated" && providers && (
-            <div className="pt-2 flex flex-col gap-2">
-              {Object.values(providers).map((provider) => (
-                <button
-                  key={provider.id}
-                  onClick={() => signIn(provider.id)}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-white transition-all
+      <div
+        className={`
+  overflow-hidden transition-all duration-300 ease-in-out
+  md:hidden border-t border-white/10 bg-gray-950/95 backdrop-blur-md px-4 space-y-1
+  ${isMobileMenuOpen ? "max-h-96 py-3 opacity-100" : "max-h-0 py-0 opacity-0"}
+`}
+      >
+        {navLink("/", "Home")}
+        {navLink("/properties", "Properties")}
+        {status === "authenticated" &&
+          navLink("/properties/add", "Add Property")}
+
+        {status !== "authenticated" && providers && (
+          <div className="pt-2 flex flex-col gap-2">
+            {Object.values(providers).map((provider) => (
+              <button
+                key={provider.id}
+                onClick={() => signIn(provider.id)}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-white transition-all
                     ${provider.id === "github" ? "bg-gray-800" : "bg-blue-600"}`}
-                >
-                  {provider.id === "google" && <FaGoogle />}
-                  {provider.id === "github" && <FaGithub />}
-                  Sign in with {provider.name}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+              >
+                {provider.id === "google" && <FaGoogle />}
+                {provider.id === "github" && <FaGithub />}
+                Sign in with {provider.name}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     </nav>
   );
 };
