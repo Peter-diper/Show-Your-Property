@@ -210,7 +210,9 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-white/10 bg-gray-950/95 backdrop-blur-md px-4 py-3 space-y-1">
+        <div
+          className={` ${isMobileMenuOpen ? "" : "max-h-0 overflow-hidden"} transition-all duration-200 md:hidden border-t border-white/10 bg-gray-950/95 backdrop-blur-md px-4 py-3 space-y-1`}
+        >
           {navLink("/", "Home")}
           {navLink("/properties", "Properties")}
           {status === "authenticated" &&

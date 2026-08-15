@@ -31,14 +31,7 @@ const HomeProperties = async () => {
           </div>
         </div>
       </section>
-      <section className="m-auto max-w-lg pb-6  px-6">
-        <Link
-          href="/properties"
-          className="block bg-gray-500/40 text-white text-center  py-4 px-6 rounded-xl hover:bg-gray-900"
-        >
-          View All Properties
-        </Link>
-      </section>
+      <section className="m-auto max-w-lg pb-6  px-6"></section>
     </>
   );
 };
