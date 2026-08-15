@@ -2,7 +2,7 @@ import PropertyEdit from "@/components/PropertyEdit";
 
 const EditPage = () => {
   return (
-    <section>
+    <section className="animate-soft-intro">
       <PropertyEdit />
     </section>
   );

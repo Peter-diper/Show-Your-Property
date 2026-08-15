@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 .color-gradient-2 {
-  @apply bg-linear-5 via-gray-900 from-gray-800 to-black;
+  @apply bg-linear-5 via-gray-900 from-gray-950/92 to-gray-950/90;
 }
 .color-gradient-3 {
   @apply bg-linear-5 via-gray-800 from-gray-800;

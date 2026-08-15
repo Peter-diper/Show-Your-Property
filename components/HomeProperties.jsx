@@ -8,8 +8,8 @@ const HomeProperties = async () => {
   const data = await fetchProperties();
 
   const recentProperties =
-    data.properties
-      .sort(
+    data?.properties
+      ?.sort(
         // eslint-disable-next-line
         () => Math.random() - Math.random(),
       )
@@ -17,7 +17,7 @@ const HomeProperties = async () => {
 
   return (
     <>
-      <section className="px-4 mt-5 py-6">
+      <section className="px-4 animate-soft-intro mt-5 py-6">
         <div className="container-xl lg:container m-auto">
           <h2 className="text-3xl font-bold text-blue-500 mb-6 text-center">
             Recent Properties

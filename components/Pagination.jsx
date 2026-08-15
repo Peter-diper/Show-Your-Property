@@ -1,7 +1,10 @@
+import { scrollToTop } from "@/utils/scrollTop";
+
 const Pagination = ({ handleChage, page, total, pageSize }) => {
   const totalPage = Math.ceil(total / pageSize);
 
   const handlePageChange = (newPage) => {
+    scrollToTop();
     if (newPage >= 1 && newPage <= totalPage) {
       handleChage(newPage);
     }

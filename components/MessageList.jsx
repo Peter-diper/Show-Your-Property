@@ -27,7 +27,7 @@ const MessageList = () => {
   }, []);
 
   return (
-    <section className="min-h-screen  bg-linear-to-br from-gray-900 via-gray-950 to-black py-12 px-4">
+    <section className="min-h-screen   bg-linear-to-br from-gray-900 via-gray-950 to-black py-12 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="bg-white/4  backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl shadow-black/30 overflow-hidden">

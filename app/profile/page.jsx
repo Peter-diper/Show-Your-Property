@@ -62,23 +62,24 @@ const ProfilePage = () => {
   if (loading) return <ProfileSkeleton />;
 
   return (
-    <section className="min-h-screen bg-linear-to-br from-gray-900 via-gray-950 to-black py-12 px-4">
+    <section className="min-h-screen animate-soft-intro bg-linear-to-br from-gray-900 via-gray-950 to-black py-12 px-4">
       <div className="max-w-5xl mx-auto space-y-6">
         {/* Profile Card */}
         <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-xl shadow-black/30">
           <h1 className="text-2xl font-bold text-white mb-6 tracking-tight">
             Your Profile
           </h1>
-          <div className="flex flex-col md:flex-row items-start gap-8">
+          <div className="flex md:justify-self-auto justify-self-center flex-col md:flex-row items-start gap-8">
             {/* Avatar + Info */}
-            <div className="flex flex-col items-center md:items-start gap-4 md:w-1/4">
+            <div className="flex flex-col items-center  md:items-start gap-4 md:w-1/4">
               <div className="ring-2 ring-white/20 rounded-full p-1">
                 <Image
-                  className="h-28 w-28 rounded-full object-cover"
+                  className="md:h-28 md:w-28 w-50 rounded-full object-cover"
                   src={userImage || defaultProfile}
                   alt="User"
-                  width={112}
-                  height={112}
+                  width={0}
+                  height={0}
+                  sizes="100"
                 />
               </div>
               <div className="text-center md:text-left">

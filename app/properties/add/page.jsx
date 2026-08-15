@@ -3,7 +3,7 @@ import React from "react";
 
 const AddPage = () => {
   return (
-    <section>
+    <section className="animate-soft-intro">
       <PropertyAdd />
     </section>
   );

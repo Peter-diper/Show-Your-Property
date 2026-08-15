@@ -65,7 +65,7 @@ const Message = ({ message }) => {
   if (isDeleted) return null;
 
   return (
-    <div className="group relative border select-none border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-blue-200 transition-all duration-200">
+    <div className="group animate-soft-intro relative border select-none border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-blue-200 transition-all duration-200">
       <div className="flex justify-between items-start mb-4">
         <div>
           <h2 className="text-xl font-semibold  text-slate-800">
