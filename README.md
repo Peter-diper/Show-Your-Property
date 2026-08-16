@@ -47,20 +47,15 @@ A full-stack property listing application built with Next.js 15, MongoDB, and Ne
 
 ## 📄 Pagination, Featured, Lightbox & Deploy
 
-- [ ] Properties Client Component Refactor
-- [ ] Implement Pagination
-- [ ] Pagination Component
-- [ ] Photoswipe Lightbox
-- [ ] Fetch Featured Properties
-- [ ] Featured Property Component
-- [ ] Deploy To Vercel
+- [x] Properties Client Component Refactor
+- [x] Implement Pagination
+- [x] Pagination Component
+- [x] Photoswipe Lightbox
+- [x] Fetch Featured Properties
+- [x] Featured Property Component
+- [x] Deploy To Vercel
 
-## 🚧 In Progress
-
-- [ ] Toast Notifications
-- [ ] Edit Property Form
-- [ ] Update PUT API Route
-
+      
 ---
 
 ## #Farsi
@@ -104,21 +99,21 @@ A full-stack property listing application built with Next.js 15, MongoDB, and Ne
 
 - [x] مدل پیام و وضعیت فرم
 - [x] ارسال پیام و مسیر API
-- [ ] نیاز به احراز هویت برای فرم تماس
-- [ ] دریافت پیام‌ها
-- [ ] نمایش پیام‌ها
-- [ ] علامت‌گذاری به عنوان خوانده‌شده
-- [ ] حذف پیام‌ها
-- [ ] مرتب‌سازی جدیدترین پیام‌ها
-- [ ] نمایش تعداد پیام‌های جدید
-- [ ] Context سراسری برای پیام‌های خوانده‌نشده
+- [x] نیاز به احراز هویت برای فرم تماس
+- [x] دریافت پیام‌ها
+- [x] نمایش پیام‌ها
+- [x] علامت‌گذاری به عنوان خوانده‌شده
+- [x] حذف پیام‌ها
+- [x] مرتب‌سازی جدیدترین پیام‌ها
+- [x] نمایش تعداد پیام‌های جدید
+- [x] Context سراسری برای پیام‌های خوانده‌نشده
 
 ## 📄 صفحه‌بندی، ویژه، Lightbox و استقرار
 
-- [ ] بازسازی کامپوننت‌های Client
-- [ ] پیاده‌سازی صفحه‌بندی
-- [ ] کامپوننت صفحه‌بندی
-- [ ] Lightbox عکس‌ها
-- [ ] دریافت ملک‌های ویژه
-- [ ] کامپوننت ملک ویژه
-- [ ] استقرار روی Vercel
+- [x] بازسازی کامپوننت‌های Client
+- [x] پیاده‌سازی صفحه‌بندی
+- [x] کامپوننت صفحه‌بندی
+- [x] Lightbox عکس‌ها
+- [x] دریافت ملک‌های ویژه
+- [x] کامپوننت ملک ویژه
+- [x] استقرار روی Vercel
