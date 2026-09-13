@@ -6,7 +6,7 @@ const InfoBoxes = () => {
       <div className="container-xl lg:container m-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-lg">
           <InfoBox
-            title={"For Renters"}
+            title={"For owners"}
             backgroundColor="color-gradient-box"
             buttonInfo={{
               href: "/properties",
@@ -22,7 +22,7 @@ const InfoBoxes = () => {
             title={"For Property Owners"}
             buttonInfo={{
               href: "/properties/add",
-              text: "For Renters",
+              text: "For Owners",
               backgroundColor: "bg-gray-500",
             }}
             backgroundColor="color-gradient-box-2 "
